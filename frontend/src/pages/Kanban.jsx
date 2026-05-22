@@ -27,20 +27,28 @@ export default function Kanban() {
 
   const fetchData = async () => {
     try {
-      const [t, u] = await Promise.all([
-        api.get('/tasks'),
-        api.get('/auth/users'),
-      ]);
-      setTasks(t.data);
-      setUsers(u.data);
+      // 1. Semua user (Admin & Operator) berhak mengambil data tasks
+      const tasksResponse = await api.get('/tasks');
+      setTasks(tasksResponse.data);
+
+      // 2. Hanya ambil data users jika role-nya adalah admin
+      if (user?.role === 'admin') {
+        const usersResponse = await api.get('/auth/users');
+        setUsers(usersResponse.data);
+      }
     } catch (err) {
-      console.error(err);
+      console.error('Gagal mengambil data Kanban:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  // Jalankan fetchData hanya saat data user dari AuthContext sudah tersedia
+  useEffect(() => {
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
 
   const handleAddTask = async () => {
     try {
@@ -68,8 +76,12 @@ export default function Kanban() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Hapus task ini?')) return;
-    await api.delete(`/tasks/${id}`);
-    fetchData();
+    try {
+      await api.delete(`/tasks/${id}`);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleDragStart = (id) => setDragId(id);
@@ -80,12 +92,14 @@ export default function Kanban() {
     setDragId(null);
   };
 
-  const getTasksByStatus = (status) =>
-    tasks.filter(t => {
+  const getTasksByStatus = (status) => {
+    // Log dibersihkan agar tidak mengotori console Anda saat render ulang
+    return tasks.filter(t => {
       const matchStatus = t.status === status;
       const matchOwner = user?.role === 'admin' || t.assigned_to === user?.id || t.created_by === user?.id;
       return matchStatus && matchOwner;
     });
+  };
 
   if (loading) return (
     <div className="kanban-loading">
