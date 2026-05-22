@@ -1,16 +1,29 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
 import api from '../api/axios';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './Dashboard.css';
 
 export default function Dashboard() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [stats, setStats] = useState({ assets: 0, incidents: 0, activities: 0, users: 0 });
   const [incidentChart, setIncidentChart] = useState([]);
   const [recentActivities, setRecentActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (user && user.role !== 'admin') {
+      navigate('/activities', { replace: true });
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    if (!user || user.role !== 'admin') return;
+
     const fetchData = async () => {
       try {
         const [a, i, ac, u] = await Promise.all([
@@ -31,7 +44,10 @@ export default function Dashboard() {
         });
 
         const urgencyCount = { critical: 0, high: 0, normal: 0 };
-        i.data.forEach(x => { urgencyCount[x.urgency_level] = (urgencyCount[x.urgency_level] || 0) + 1; });
+        i.data.forEach(x => {
+          urgencyCount[x.urgency_level] = (urgencyCount[x.urgency_level] || 0) + 1;
+        });
+
         setIncidentChart([
           { name: 'Critical', value: urgencyCount.critical },
           { name: 'High', value: urgencyCount.high },
@@ -40,19 +56,22 @@ export default function Dashboard() {
 
         setRecentActivities(ac.data.slice(-5).reverse());
       } catch (err) {
-        console.error(err);
+        console.error('Gagal memuat data dashboard:', err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, []);
+  }, [user]);
 
   const formatDate = (ts) => {
     if (!ts) return '';
     const d = new Date(ts);
     return `${d.getDate()} ${['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'][d.getMonth()]} ${d.getFullYear()}`;
   };
+
+  if (!user || user.role !== 'admin') return null;
 
   if (loading) return (
     <div className="dash-loading">
@@ -70,7 +89,9 @@ export default function Dashboard() {
             <h1>Dashboard</h1>
             <p>Ringkasan operasional PT Greenfield</p>
           </div>
-          <div className="dash-time">{new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
+          <div className="dash-time">
+            {new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+          </div>
         </div>
 
         <div className="dash-cards">

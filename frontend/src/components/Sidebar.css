@@ -1,6 +1,8 @@
 .sidebar {
   width: 220px;
-  min-height: 100vh;
+  height: 100vh;
+  position: sticky;
+  top: 0;
   background: #032b1d;
   display: flex;
   flex-direction: column;

@@ -15,7 +15,7 @@ import Logo from '../assets/Logo.png';
 import './Sidebar.css';
 
 const navItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: DashboardIcon, adminOnly: false },
+  { to: '/dashboard', label: 'Dashboard', icon: DashboardIcon, adminOnly: true },
   { to: '/activities', label: 'Aktivitas', icon: AktifitasIcon, adminOnly: false },
   { to: '/assets', label: 'Aset', icon: AsetIcon, adminOnly: false },
   { to: '/incidents', label: 'Insiden', icon: InsidenIcon, adminOnly: false },
