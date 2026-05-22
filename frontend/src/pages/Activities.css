@@ -1,45 +1,45 @@
-.activities-page {
+.act-page {
   display: flex;
   min-height: 100vh;
-  background: #f4f7f6 !important;
+  background: #f4f7f6;
 }
 
-.activities-content {
+.act-content {
   flex: 1;
   padding: 32px;
 }
 
-.activities-header {
+.act-header {
   margin-bottom: 24px;
 }
 
-.activities-header h1 {
+.act-title {
   font-size: 22px;
   font-weight: 700;
   color: #032b1d;
   margin: 0 0 4px;
 }
 
-.activities-header p {
+.act-subtitle {
   color: #6b7280;
   font-size: 13px;
   margin: 0;
 }
 
-.activities-toolbar {
+.act-toolbar {
   display: flex;
   gap: 12px;
   margin-bottom: 20px;
   align-items: center;
 }
 
-.activities-search-wrap {
+.act-search-wrap {
   position: relative;
   flex: 1;
   max-width: 520px;
 }
 
-.activities-search-icon {
+.act-search-icon {
   position: absolute;
   left: 12px;
   top: 50%;
@@ -47,38 +47,34 @@
   opacity: 0.4;
 }
 
-.activities-search-input {
+.act-search-input {
   width: 100%;
   padding: 10px 12px 10px 38px;
   border-radius: 10px;
   border: 1.5px solid #e5e7eb;
   font-size: 14px;
   color: #032b1d;
-  background: #ffffff;
+  background: #FFFFFF;
   outline: none;
   box-sizing: border-box;
-  transition: border-color 0.15s;
 }
-.activities-search-input:focus {
+
+.act-search-input:focus {
   border-color: #087448;
 }
 
-.activities-filter-select {
+.act-filter {
   padding: 10px 14px;
   border-radius: 10px;
   border: 1.5px solid #e5e7eb;
   font-size: 13px;
   color: #032b1d;
-  background: #ffffff;
+  background: #FFFFFF;
   outline: none;
   cursor: pointer;
-  transition: border-color 0.15s;
-}
-.activities-filter-select:focus {
-  border-color: #087448;
 }
 
-.activities-add-btn {
+.act-add-btn {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -86,32 +82,33 @@
   border-radius: 10px;
   border: none;
   background: #087448;
-  color: #ffffff;
+  color: #FFFFFF;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s;
 }
-.activities-add-btn:hover {
+
+.act-add-btn:hover {
   background: #16b36c;
 }
 
-.activities-add-btn img {
+.act-add-btn img {
   width: 16px;
   height: 16px;
   filter: brightness(0) invert(1);
 }
 
-.activities-table {
-  background: #ffffff;
+.act-table {
+  background: #FFFFFF;
   border-radius: 14px;
   border: 1px solid #e5e7eb;
   overflow: hidden;
 }
 
-.activities-table-header {
+.act-th {
   display: grid;
-  grid-template-columns: 2.5fr 0.8fr 1.2fr 1.2fr 0.8fr 1.4fr 80px;
+  grid-template-columns: 2fr 0.7fr 1fr 1fr 0.7fr 1fr 1.2fr 70px;
   padding: 12px 20px;
   border-bottom: 1px solid #f3f4f6;
   font-size: 11px;
@@ -120,30 +117,33 @@
   letter-spacing: 0.05em;
 }
 
-.activities-table-row {
+.act-row {
   display: grid;
-  grid-template-columns: 2.5fr 0.8fr 1.2fr 1.2fr 0.8fr 1.4fr 80px;
+  grid-template-columns: 2fr 0.7fr 1fr 1fr 0.7fr 1fr 1.2fr 70px;
   padding: 14px 20px;
   align-items: center;
   transition: background 0.1s;
 }
-.activities-table-row:hover {
-  background: #f0faf4;
-}
-.activities-table-row:nth-child(even) {
+
+.act-row:nth-child(even) {
   background: #fafafa;
 }
-.activities-table-row:nth-child(even):hover {
-  background: #f0faf4;
+
+.act-row:hover {
+  background: #f0faf4 !important;
 }
 
-.activities-table-empty {
+.act-row + .act-row {
+  border-top: 1px solid #f9fafb;
+}
+
+.act-empty {
   padding: 32px;
   text-align: center;
   color: #9ca3af;
 }
 
-.activities-label {
+.act-label {
   display: inline-block;
   padding: 2px 10px;
   border-radius: 6px;
@@ -151,20 +151,14 @@
   font-weight: 600;
 }
 
-.activities-label-auto {
-  background: #f3f4f6;
-  color: #9ca3af;
-  font-weight: 500;
-}
-
-.activities-item-title {
+.act-cell-title {
   font-weight: 600;
   color: #032b1d;
   font-size: 14px;
   margin-bottom: 2px;
 }
 
-.activities-item-desc {
+.act-cell-desc {
   font-size: 12px;
   color: #9ca3af;
   overflow: hidden;
@@ -173,31 +167,37 @@
   max-width: 280px;
 }
 
-.activities-item-location {
+.act-cell-location {
   font-size: 13px;
   color: #6b7280;
 }
 
-.activities-urgency-col {
+.act-cell-operator {
+  font-size: 12px;
+  color: #065f46;
+  font-weight: 600;
+}
+
+.act-cell-urgency {
   display: flex;
   flex-direction: column;
   gap: 4px;
   align-items: flex-start;
 }
 
-.activities-item-time {
+.act-cell-time {
   font-size: 12px;
   color: #9ca3af;
   font-family: monospace;
 }
 
-.activities-item-actions {
+.act-cell-actions {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
 }
 
-.activities-action-btn {
+.act-icon-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -205,60 +205,62 @@
   border-radius: 6px;
   display: flex;
 }
-.activities-action-btn:hover {
+
+.act-icon-btn:hover {
   background: #f0faf4;
 }
-.activities-action-btn.delete:hover {
+
+.act-icon-btn-del:hover {
   background: #fef2f2;
 }
 
-.activities-action-btn img {
+.act-icon-btn img {
   width: 16px;
   height: 16px;
 }
 
-.activities-action-edit img {
+.act-icon-edit {
   filter: invert(30%) sepia(50%) saturate(400%) hue-rotate(100deg);
 }
 
-.activities-action-delete img {
+.act-icon-del {
   filter: invert(27%) sepia(94%) saturate(1234%) hue-rotate(340deg);
 }
 
-.activities-modal-overlay {
+.act-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(3, 43, 29, 0.4);
+  background: rgba(3,43,29,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 50;
 }
 
-.activities-modal {
-  background: #ffffff;
+.act-modal {
+  background: #FFFFFF;
   border-radius: 16px;
   padding: 28px 32px;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
 }
 
-.activities-modal-header {
+.act-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
 }
 
-.activities-modal-header h2 {
+.act-modal-title {
   font-size: 17px;
   font-weight: 700;
   color: #032b1d;
   margin: 0;
 }
 
-.activities-modal-close {
+.act-modal-close {
   background: none;
   border: none;
   cursor: pointer;
@@ -267,13 +269,13 @@
   line-height: 1;
 }
 
-.activities-modal-body {
+.act-modal-body {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.activities-field-label {
+.act-field-label {
   display: block;
   font-size: 11px;
   font-weight: 700;
@@ -282,7 +284,7 @@
   margin-bottom: 6px;
 }
 
-.activities-field-input {
+.act-field-input {
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
@@ -291,13 +293,13 @@
   color: #032b1d;
   outline: none;
   box-sizing: border-box;
-  transition: border-color 0.15s;
 }
-.activities-field-input:focus {
+
+.act-field-input:focus {
   border-color: #087448;
 }
 
-.activities-field-textarea {
+.act-field-textarea {
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
@@ -308,13 +310,13 @@
   resize: none;
   box-sizing: border-box;
   font-family: inherit;
-  transition: border-color 0.15s;
 }
-.activities-field-textarea:focus {
+
+.act-field-textarea:focus {
   border-color: #087448;
 }
 
-.activities-field-select {
+.act-field-select {
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
@@ -322,48 +324,48 @@
   font-size: 14px;
   color: #032b1d;
   outline: none;
-  background: #ffffff;
-  transition: border-color 0.15s;
+  background: #FFFFFF;
 }
-.activities-field-select:focus {
+
+.act-field-select:focus {
   border-color: #087448;
 }
 
-.activities-modal-grid {
+.act-field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-.activities-modal-footer {
+.act-modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 24px;
 }
 
-.activities-btn-batal {
+.act-btn-cancel {
   padding: 10px 20px;
   border-radius: 8px;
   border: 1.5px solid #e5e7eb;
-  background: #ffffff;
+  background: #FFFFFF;
   color: #6b7280;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
 
-.activities-btn-simpan {
+.act-btn-save {
   padding: 10px 24px;
   border-radius: 8px;
   border: none;
   background: #087448;
-  color: #ffffff;
+  color: #FFFFFF;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
 }
-.activities-btn-simpan:hover {
+
+.act-btn-save:hover {
   background: #16b36c;
 }

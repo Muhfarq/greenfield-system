@@ -1,14 +1,11 @@
-/* src/pages/Login.css */
-.login-container {
+.login-page {
   min-height: 100vh;
-  width: 100%; /* Tambahan agar lebar full selayar */
-  background: #f4f7f6;
+  background: #f0faf4;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  box-sizing: border-box; /* Agar padding tidak menambah lebar */
 }
 
 .login-logo-section {
@@ -16,47 +13,28 @@
   margin-bottom: 32px;
 }
 
-.login-logo-box {
-  width: auto;
-  height: auto;
-  background: transparent;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: -90px 12px 12px;
-}
-
-.login-logo-letter {
-  color: #ffffff;
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.login-title {
-  color: #087448;
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0 0 6px;
+.login-logo {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  margin: -80px auto 16px;
 }
 
 .login-subtitle {
   color: #16b36c;
   font-size: 14px;
-  margin: 0;
-  margin-top: -60px;
+  margin-top: -80px;
 }
 
 .login-card {
-  background: #ffffff;
+  background: #FFFFFF;
   border-radius: 16px;
   padding: 32px;
   width: 100%;
   max-width: 400px;
-  box-sizing: border-box;
 }
 
-.login-card-title {
+.login-title {
   font-size: 18px;
   font-weight: 600;
   color: #032b1d;
@@ -69,13 +47,17 @@
   gap: 16px;
 }
 
-.login-field-label {
+.login-label {
   display: block;
   font-size: 11px;
   font-weight: 600;
   color: #6b7280;
   letter-spacing: 0.08em;
   margin-bottom: 6px;
+}
+
+.login-input-wrapper {
+  position: relative;
 }
 
 .login-input {
@@ -87,25 +69,20 @@
   color: #032b1d;
   outline: none;
   box-sizing: border-box;
-  background: #ffffff;
-  transition: border-color 0.15s;
+  background: #FFFFFF;
+}
+
+.login-password-input {
+  padding-right: 40px;
 }
 
 .login-input:focus {
   border-color: #087448;
 }
 
-.login-password-wrap {
-  position: relative;
-}
-
-.login-password-wrap .login-input {
-  padding-right: 40px;
-}
-
-.login-password-toggle {
+.login-toggle-btn {
   position: absolute;
-  right: 8px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -114,13 +91,12 @@
   padding: 4px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  opacity: 0.6;
-  transition: opacity 0.15s;
+  opacity: 0.5;
 }
 
-.login-password-toggle:hover {
-  opacity: 1;
+.login-toggle-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .login-error {
@@ -134,22 +110,22 @@
   padding: 12px;
   border-radius: 8px;
   background: #087448;
-  color: #ffffff;
+  color: #FFFFFF;
   font-size: 15px;
   font-weight: 600;
   border: none;
   cursor: pointer;
   margin-top: 4px;
   transition: background 0.2s;
-} 
-
-.login-submit:hover:not(:disabled) {
-  background: #16b36c;
 }
 
 .login-submit:disabled {
   background: #087448aa;
   cursor: not-allowed;
+}
+
+.login-submit:hover:not(:disabled) {
+  background: #16b36c;
 }
 
 .login-footer {

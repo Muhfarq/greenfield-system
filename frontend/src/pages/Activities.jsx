@@ -1,4 +1,3 @@
-// src/pages/Activities.jsx
 import { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import api from '../api/axios';
@@ -7,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import EditIcon from '../assets/edit.svg'
 import DeleteIcon from '../assets/delete.svg'
 import PlusIcon from '../assets/plus.svg'
+import './Activities.css';
 
 const urgencyStyle = {
   critical: { background: '#fee2e2', color: '#dc2626', fontWeight: '700' },
@@ -102,160 +102,87 @@ export default function Activities() {
   });
 
   const Label = ({ text, style }) => (
-    <span style={{
-      display: 'inline-block', padding: '2px 10px', borderRadius: '6px',
-      fontSize: '11px', fontWeight: '600', ...style
-    }}>{text}</span>
+    <span className="act-label" style={style}>{text}</span>
   );
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f0faf4' }}>
+    <div className="act-page">
       <Sidebar />
-
-      <div style={{ flex: 1, padding: '32px' }}>
-
-        {/* Header */}
-        <div style={{ marginBottom: '24px' }}>
-          <h1 style={{ fontSize: '22px', fontWeight: '700', color: '#032b1d', margin: '0 0 4px' }}>Manajemen Aktivitas</h1>
-          <p style={{ color: '#6b7280', fontSize: '13px', margin: 0 }}>Pencatatan dan pemantauan aktivitas lapangan</p>
+      <div className="act-content">
+        <div className="act-header">
+          <h1 className="act-title">Manajemen Aktivitas</h1>
+          <p className="act-subtitle">Pencatatan dan pemantauan aktivitas lapangan</p>
         </div>
 
-        {/* Toolbar */}
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', alignItems: 'center' }}>
-          {/* Search */}
-          <div style={{ position: 'relative', flex: 1, maxWidth: '520px' }}>
-            <svg style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.4 }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#032b1d" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <div className="act-toolbar">
+          <div className="act-search-wrap">
+            <svg className="act-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#032b1d" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             <input
               type="text"
               placeholder="Cari judul atau lokasi..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              style={{
-                width: '100%', padding: '10px 12px 10px 38px',
-                borderRadius: '10px', border: '1.5px solid #e5e7eb',
-                fontSize: '14px', color: '#032b1d', background: '#FFFFFF',
-                outline: 'none', boxSizing: 'border-box'
-              }}
-              onFocus={e => e.target.style.borderColor = '#087448'}
-              onBlur={e => e.target.style.borderColor = '#e5e7eb'}
+              className="act-search-input"
             />
           </div>
 
-          {/* Filter urgency */}
-          <select
-            value={filterUrgency}
-            onChange={e => setFilterUrgency(e.target.value)}
-            style={{
-              padding: '10px 14px', borderRadius: '10px', border: '1.5px solid #e5e7eb',
-              fontSize: '13px', color: '#032b1d', background: '#FFFFFF', outline: 'none', cursor: 'pointer'
-            }}
-          >
+          <select value={filterUrgency} onChange={e => setFilterUrgency(e.target.value)} className="act-filter">
             <option value="all">Semua Urgency</option>
             <option value="critical">Critical</option>
             <option value="high">High</option>
             <option value="normal">Normal</option>
           </select>
 
-          {/* Tambah button */}
-          <button
-            onClick={() => { setForm(emptyForm); setEditId(null); setShowForm(true); }}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '6px',
-              padding: '10px 18px', borderRadius: '10px', border: 'none',
-              background: '#087448', color: '#FFFFFF', fontSize: '14px',
-              fontWeight: '600', cursor: 'pointer', transition: 'background 0.15s'
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = '#16b36c'}
-            onMouseLeave={e => e.currentTarget.style.background = '#087448'}
-          >
-            <img src={PlusIcon} alt="" style={{ width: '16px', height: '16px', filter: 'brightness(0) invert(1)' }} />
+          <button onClick={() => { setForm(emptyForm); setEditId(null); setShowForm(true); }} className="act-add-btn">
+            <img src={PlusIcon} alt="" />
             Tambah Aktivitas
           </button>
         </div>
 
-        {/* Table */}
-        <div style={{ background: '#FFFFFF', borderRadius: '14px', border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-          {/* Table Header */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: '2.5fr 0.8fr 1.2fr 1.2fr 0.8fr 1.4fr 80px',
-            padding: '12px 20px', borderBottom: '1px solid #f3f4f6',
-            fontSize: '11px', fontWeight: '700', color: '#9ca3af', letterSpacing: '0.05em'
-          }}>
+        <div className="act-table">
+          <div className="act-th">
             <span>JUDUL / DESKRIPSI</span>
             <span>TIPE</span>
             <span>LOKASI</span>
             <span>URGENCY</span>
             <span>STATUS</span>
+            <span>OPERATOR</span>
             <span>WAKTU</span>
             <span></span>
           </div>
 
-          {/* Rows */}
           {loading ? (
-            <div style={{ padding: '32px', textAlign: 'center', color: '#9ca3af' }}>Loading...</div>
+            <div className="act-empty">Loading...</div>
           ) : filtered.length === 0 ? (
-            <div style={{ padding: '32px', textAlign: 'center', color: '#9ca3af' }}>Belum ada aktivitas</div>
+            <div className="act-empty">Belum ada aktivitas</div>
           ) : filtered.map((item, idx) => (
-            <div key={item.id} style={{
-              display: 'grid', gridTemplateColumns: '2.5fr 0.8fr 1.2fr 1.2fr 0.8fr 1.4fr 80px',
-              padding: '14px 20px', alignItems: 'center',
-              borderBottom: idx < filtered.length - 1 ? '1px solid #f9fafb' : 'none',
-              background: idx % 2 === 0 ? '#FFFFFF' : '#fafafa',
-              transition: 'background 0.1s'
-            }}
-              onMouseEnter={e => e.currentTarget.style.background = '#f0faf4'}
-              onMouseLeave={e => e.currentTarget.style.background = idx % 2 === 0 ? '#FFFFFF' : '#fafafa'}
-            >
-              {/* Judul */}
+            <div key={item.id} className="act-row">
               <div>
-                <div style={{ fontWeight: '600', color: '#032b1d', fontSize: '14px', marginBottom: '2px' }}>{item.title}</div>
+                <div className="act-cell-title">{item.title}</div>
                 {item.description && (
-                  <div style={{ fontSize: '12px', color: '#9ca3af', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '280px' }}>
-                    {item.description}
-                  </div>
+                  <div className="act-cell-desc">{item.description}</div>
                 )}
               </div>
-
-              {/* Tipe */}
               <div>
                 <Label text={item.type} style={tipeStyle[item.type] || { background: '#f3f4f6', color: '#6b7280' }} />
               </div>
-
-              {/* Lokasi */}
-              <div style={{ fontSize: '13px', color: '#6b7280' }}>{item.location || '-'}</div>
-
-              {/* Urgency */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div className="act-cell-location">{item.location || '-'}</div>
+              <div className="act-cell-urgency">
                 <Label text={item.urgency_level.toUpperCase()} style={urgencyStyle[item.urgency_level]} />
                 {item.is_auto_urgency && <Label text="Auto" style={{ background: '#f3f4f6', color: '#9ca3af', fontWeight: '500' }} />}
               </div>
-
-              {/* Status */}
               <div>
                 <Label text={item.status} style={statusStyle[item.status] || { background: '#f3f4f6', color: '#6b7280' }} />
               </div>
-
-              {/* Waktu */}
-              <div style={{ fontSize: '12px', color: '#9ca3af', fontFamily: 'monospace' }}>
-                {formatDate(item.created_at)}
-              </div>
-
-              {/* Aksi */}
-              <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+              <div className="act-cell-operator">{item.user_name || '-'}</div>
+              <div className="act-cell-time">{formatDate(item.created_at)}</div>
+              <div className="act-cell-actions">
                 {(user.role === 'admin' || item.user_id === user.id) && (<>
-                  <button onClick={() => handleEdit(item)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', borderRadius: '6px', display: 'flex' }}
-                    onMouseEnter={e => e.currentTarget.style.background = '#f0faf4'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'none'}
-                  >
-                    <img src={EditIcon} alt="edit" style={{ width: '16px', height: '16px', filter: 'invert(30%) sepia(50%) saturate(400%) hue-rotate(100deg)' }} />
+                  <button onClick={() => handleEdit(item)} className="act-icon-btn">
+                    <img src={EditIcon} alt="edit" className="act-icon-edit" />
                   </button>
-                  <button onClick={() => handleDelete(item.id)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', borderRadius: '6px', display: 'flex' }}
-                    onMouseEnter={e => e.currentTarget.style.background = '#fef2f2'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'none'}
-                  >
-                    <img src={DeleteIcon} alt="hapus" style={{ width: '16px', height: '16px', filter: 'invert(27%) sepia(94%) saturate(1234%) hue-rotate(340deg)' }} />
+                  <button onClick={() => handleDelete(item.id)} className="act-icon-btn act-icon-btn-del">
+                    <img src={DeleteIcon} alt="hapus" className="act-icon-del" />
                   </button>
                 </>)}
               </div>
@@ -264,60 +191,26 @@ export default function Activities() {
         </div>
       </div>
 
-      {/* Modal Form */}
       {showForm && (
-        <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(3,43,29,0.4)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50
-        }}>
-          <div style={{
-            background: '#FFFFFF', borderRadius: '16px', padding: '28px 32px',
-            width: '100%', maxWidth: '480px', boxShadow: '0 20px 60px rgba(0,0,0,0.15)'
-          }}>
-            {/* Modal Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-              <h2 style={{ fontSize: '17px', fontWeight: '700', color: '#032b1d', margin: 0 }}>
-                {editId ? 'Edit Aktivitas' : 'Tambah Aktivitas'}
-              </h2>
-              <button onClick={() => setShowForm(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', color: '#9ca3af', lineHeight: 1 }}>✕</button>
+        <div className="act-modal-overlay">
+          <div className="act-modal">
+            <div className="act-modal-header">
+              <h2 className="act-modal-title">{editId ? 'Edit Aktivitas' : 'Tambah Aktivitas'}</h2>
+              <button onClick={() => setShowForm(false)} className="act-modal-close">✕</button>
             </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-
-              {/* Judul */}
+            <div className="act-modal-body">
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#6b7280', letterSpacing: '0.07em', marginBottom: '6px' }}>JUDUL AKTIVITAS</label>
-                <input
-                  placeholder="Deskripsi singkat aktivitas"
-                  value={form.title}
-                  onChange={e => setForm({ ...form, title: e.target.value })}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d', outline: 'none', boxSizing: 'border-box' }}
-                  onFocus={e => e.target.style.borderColor = '#087448'}
-                  onBlur={e => e.target.style.borderColor = '#e5e7eb'}
-                />
+                <label className="act-field-label">JUDUL AKTIVITAS</label>
+                <input placeholder="Deskripsi singkat aktivitas" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="act-field-input" />
               </div>
-
-              {/* Deskripsi */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#6b7280', letterSpacing: '0.07em', marginBottom: '6px' }}>DESKRIPSI</label>
-                <textarea
-                  placeholder="Detail lengkap aktivitas..."
-                  value={form.description}
-                  onChange={e => setForm({ ...form, description: e.target.value })}
-                  rows={4}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d', outline: 'none', resize: 'none', boxSizing: 'border-box', fontFamily: 'inherit' }}
-                  onFocus={e => e.target.style.borderColor = '#087448'}
-                  onBlur={e => e.target.style.borderColor = '#e5e7eb'}
-                />
+                <label className="act-field-label">DESKRIPSI</label>
+                <textarea placeholder="Detail lengkap aktivitas..." value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={4} className="act-field-textarea" />
               </div>
-
-              {/* Tipe & Status */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div className="act-field-row">
                 <div>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#6b7280', letterSpacing: '0.07em', marginBottom: '6px' }}>TIPE</label>
-                  <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}
-                    style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d', outline: 'none', background: '#FFFFFF' }}>
+                  <label className="act-field-label">TIPE</label>
+                  <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="act-field-select">
                     <option value="maintenance">Maintenance</option>
                     <option value="inspeksi">Inspeksi</option>
                     <option value="produksi">Produksi</option>
@@ -325,66 +218,33 @@ export default function Activities() {
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#6b7280', letterSpacing: '0.07em', marginBottom: '6px' }}>STATUS</label>
-                  <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}
-                    style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d', outline: 'none', background: '#FFFFFF' }}>
+                  <label className="act-field-label">STATUS</label>
+                  <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="act-field-select">
                     <option value="ongoing">Ongoing</option>
                     <option value="selesai">Selesai</option>
                   </select>
                 </div>
               </div>
-
-              {/* Lokasi */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#6b7280', letterSpacing: '0.07em', marginBottom: '6px' }}>LOKASI</label>
-                <input
-                  placeholder="Area atau lokasi kejadian"
-                  value={form.location}
-                  onChange={e => setForm({ ...form, location: e.target.value })}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d', outline: 'none', boxSizing: 'border-box' }}
-                  onFocus={e => e.target.style.borderColor = '#087448'}
-                  onBlur={e => e.target.style.borderColor = '#e5e7eb'}
-                />
+                <label className="act-field-label">LOKASI</label>
+                <input placeholder="Area atau lokasi kejadian" value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} className="act-field-input" />
               </div>
-
-              {/* Urgency */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#6b7280', letterSpacing: '0.07em', marginBottom: '6px' }}>URGENCY LEVEL</label>
-                <select value={form.urgency_level} onChange={e => setForm({ ...form, urgency_level: e.target.value })}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d', outline: 'none', background: '#FFFFFF' }}>
+                <label className="act-field-label">URGENCY LEVEL</label>
+                <select value={form.urgency_level} onChange={e => setForm({ ...form, urgency_level: e.target.value })} className="act-field-select">
                   <option value="normal">Normal</option>
                   <option value="high">High</option>
                   <option value="critical">Critical</option>
                 </select>
               </div>
-
-              {/* Waktu */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#6b7280', letterSpacing: '0.07em', marginBottom: '6px' }}>WAKTU KEJADIAN</label>
-                <input
-                  type="datetime-local"
-                  value={form.event_time}
-                  onChange={e => setForm({ ...form, event_time: e.target.value })}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d', outline: 'none', boxSizing: 'border-box' }}
-                  onFocus={e => e.target.style.borderColor = '#087448'}
-                  onBlur={e => e.target.style.borderColor = '#e5e7eb'}
-                />
+                <label className="act-field-label">WAKTU KEJADIAN</label>
+                <input type="datetime-local" value={form.event_time} onChange={e => setForm({ ...form, event_time: e.target.value })} className="act-field-input" />
               </div>
             </div>
-
-            {/* Footer */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '24px' }}>
-              <button onClick={() => setShowForm(false)}
-                style={{ padding: '10px 20px', borderRadius: '8px', border: '1.5px solid #e5e7eb', background: '#FFFFFF', color: '#6b7280', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
-                Batal
-              </button>
-              <button onClick={handleSubmit}
-                style={{ padding: '10px 24px', borderRadius: '8px', border: 'none', background: '#087448', color: '#FFFFFF', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}
-                onMouseEnter={e => e.currentTarget.style.background = '#16b36c'}
-                onMouseLeave={e => e.currentTarget.style.background = '#087448'}
-              >
-                Simpan
-              </button>
+            <div className="act-modal-footer">
+              <button onClick={() => setShowForm(false)} className="act-btn-cancel">Batal</button>
+              <button onClick={handleSubmit} className="act-btn-save">Simpan</button>
             </div>
           </div>
         </div>

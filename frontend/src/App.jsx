@@ -14,12 +14,20 @@ const PrivateRoute = ({ children }) => {
   return user ? children : <Navigate to="/login" />;
 };
 
+const AdminRoute = ({ children }) => {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" />;
+  if (user.role !== 'admin') return <Navigate to="/activities" />;
+  return children;
+};
+
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/users" element={<PrivateRoute><Users /></PrivateRoute>} />
-      <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+      <Route path="/dashboard" element={<AdminRoute><Dashboard /></AdminRoute>} />
+      <Route path="/users" element={<AdminRoute><Users /></AdminRoute>} />
+      <Route path="/activities" element={<PrivateRoute><Activities /></PrivateRoute>} />
       <Route path="/activities" element={<PrivateRoute><Activities /></PrivateRoute>} />
       <Route path="/assets" element={<PrivateRoute><Assets /></PrivateRoute>} />
       <Route path="/incidents" element={<PrivateRoute><Incidents /></PrivateRoute>} />

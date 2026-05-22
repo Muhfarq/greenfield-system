@@ -1,63 +1,52 @@
 .sidebar {
-  width: 220px;
   height: 100vh;
-  position: sticky;
-  top: 0;
   background: #032b1d;
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 0;
   flex-shrink: 0;
+  z-index: 10;
   transition: width 0.3s ease-in-out;
-}
-.sidebar.collapsed {
-  width: 80px;
 }
 
 .sidebar-header {
-  padding: 20px 16px;
   border-bottom: 1px solid #0a3d23;
   display: flex;
   align-items: center;
+  padding: 20px 16px;
   justify-content: space-between;
+  gap: 0;
 }
-.sidebar.collapsed .sidebar-header {
+
+.sidebar-header.collapsed {
   padding: 20px 0;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
   gap: 15px;
 }
 
-.sidebar-logo {
+.sidebar-logo-section {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.sidebar-logo-badge {
-  width: auto;
-  height: auto;
-  background: transparent;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
+.sidebar-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
   flex-shrink: 0;
 }
 
-.sidebar-brand {
+.sidebar-brand-text {
   white-space: nowrap;
+  opacity: 1;
   transition: opacity 0.2s;
 }
-.sidebar.collapsed .sidebar-brand {
-  opacity: 0;
-  pointer-events: none;
-}
 
-.sidebar-brand-title {
-  color: #ffffff;
+.sidebar-brand-name {
+  color: #FFFFFF;
   font-weight: 600;
   font-size: 15px;
 }
@@ -77,13 +66,14 @@
   padding: 4px;
 }
 
-.sidebar-toggle img {
+.sidebar-arrow {
   width: 16px;
   height: 16px;
   opacity: 0.7;
   transition: transform 0.3s ease;
 }
-.sidebar.collapsed .sidebar-toggle img {
+
+.sidebar-arrow.collapsed {
   transform: rotate(180deg);
 }
 
@@ -95,7 +85,7 @@
   gap: 2px;
 }
 
-.sidebar-nav-btn {
+.sidebar-nav-item {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -105,7 +95,7 @@
   border: none;
   cursor: pointer;
   background: transparent;
-  color: #d2f9e0;
+  color: rgba(255,255,255,0.55);
   font-size: 14px;
   font-weight: 400;
   text-align: left;
@@ -113,51 +103,57 @@
   position: relative;
   transition: background 0.15s, justify-content 0.3s;
 }
-.sidebar.collapsed .sidebar-nav-btn {
+
+.sidebar-nav-item.collapsed {
   justify-content: center;
 }
-.sidebar-nav-btn:hover {
-  background: #0a3d23;
-}
-.sidebar-nav-btn.active {
+
+.sidebar-nav-item.active {
   background: #087448;
-  color: #ffffff;
+  color: #FFFFFF;
   font-weight: 600;
+}
+
+.sidebar-nav-item:hover:not(.active) {
+  background: #0a3d23;
 }
 
 .sidebar-nav-icon {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  filter: brightness(0) invert(0.7) sepia(1) hue-rotate(90deg) saturate(2);
-}
-.sidebar-nav-btn.active .sidebar-nav-icon {
   filter: brightness(0) invert(1);
+  opacity: 0.55;
+}
+
+.sidebar-nav-item.active .sidebar-nav-icon {
+  opacity: 1;
 }
 
 .sidebar-nav-label {
   white-space: nowrap;
 }
-.sidebar.collapsed .sidebar-nav-label {
-  display: none;
-}
 
-.sidebar-nav-badge {
-  margin-left: auto;
+.sidebar-badge {
   background: #dc2626;
-  color: #ffffff;
+  color: #FFFFFF;
   font-size: 10px;
   font-weight: 700;
   border-radius: 99px;
   padding: 1px 6px;
   min-width: 18px;
   text-align: center;
+  margin-left: auto;
+  position: static;
+  top: auto;
+  right: auto;
 }
-.sidebar.collapsed .sidebar-nav-badge {
+
+.sidebar-badge.collapsed {
+  margin-left: 0;
   position: absolute;
   top: 4px;
   right: 4px;
-  margin-left: 0;
 }
 
 .sidebar-user {
@@ -168,11 +164,12 @@
   justify-content: flex-start;
   gap: 10px;
 }
-.sidebar.collapsed .sidebar-user {
+
+.sidebar-user.collapsed {
   justify-content: center;
 }
 
-.sidebar-user-avatar {
+.sidebar-avatar {
   width: 32px;
   height: 32px;
   background: #16b36c;
@@ -190,12 +187,9 @@
   flex: 1;
   overflow: hidden;
 }
-.sidebar.collapsed .sidebar-user-info {
-  display: none;
-}
 
 .sidebar-user-name {
-  color: #ffffff;
+  color: #FFFFFF;
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
@@ -218,9 +212,8 @@
   display: flex;
   align-items: center;
 }
-.sidebar-logout:hover {
-  opacity: 1;
-}
-.sidebar.collapsed .sidebar-logout {
-  display: none;
+
+.sidebar-logout svg {
+  width: 18px;
+  height: 18px;
 }
