@@ -3,13 +3,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
-import Logo from '../assets/Logo.png';
-import './Login.css'; 
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -31,72 +28,91 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
+    <div style={{ minHeight: '100vh', background: '#032b1d', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+
       {/* Logo & Title */}
-      <div className="login-logo-section">
-        <div className="login-logo-box">
-          <img src={Logo} alt="PT Greenfield" style={{ width: '260px', height: '220px' }} />
+      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+        <div style={{
+          width: '64px', height: '64px', background: '#087448',
+          borderRadius: '16px', display: 'flex', alignItems: 'center',
+          justifyContent: 'center', margin: '0 auto 16px'
+        }}>
+          <span style={{ color: '#FFFFFF', fontSize: '28px', fontWeight: '600' }}>G</span>
         </div>
-        {/* <h1 className="login-title">PT Greenfield</h1> */}
-        <p className="login-subtitle">Operations Management System</p>
+        <h1 style={{ color: '#FFFFFF', fontSize: '22px', fontWeight: '600', margin: '0 0 6px' }}>
+          PT Greenfield
+        </h1>
+        <p style={{ color: '#16b36c', fontSize: '14px', margin: 0 }}>
+          Operations Management System
+        </p>
       </div>
 
       {/* Card */}
-      <div className="login-card">
-        <h2 className="login-card-title">Masuk ke Sistem</h2>
+      <div style={{
+        background: '#FFFFFF', borderRadius: '16px',
+        padding: '32px', width: '100%', maxWidth: '400px'
+      }}>
+        <h2 style={{ fontSize: '18px', fontWeight: '600', color: '#032b1d', margin: '0 0 24px' }}>
+          Masuk ke Sistem
+        </h2>
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div>
-            <label className="login-field-label">EMAIL</label>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: '#6b7280', letterSpacing: '0.08em', marginBottom: '6px' }}>
+              EMAIL
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="user@greenfield.co.id"
               required
-              className="login-input"
+              style={{
+                width: '100%', padding: '10px 14px', borderRadius: '8px',
+                border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d',
+                outline: 'none', boxSizing: 'border-box', background: '#FFFFFF'
+              }}
+              onFocus={e => e.target.style.borderColor = '#087448'}
+              onBlur={e => e.target.style.borderColor = '#e5e7eb'}
             />
           </div>
 
           <div>
-            <label className="login-field-label">PASSWORD</label>
-            <div className="login-password-wrap">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••"
-                required
-                className="login-input"
-              />
-              <button
-                type="button"
-                className="login-password-toggle"
-                onClick={() => setShowPassword((prev) => !prev)}
-                tabIndex={-1}
-              >
-                {showPassword ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
-                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
-                    <line x1="1" y1="1" x2="23" y2="23" />
-                  </svg>
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                )}
-              </button>
-            </div>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: '#6b7280', letterSpacing: '0.08em', marginBottom: '6px' }}>
+              PASSWORD
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••••"
+              required
+              style={{
+                width: '100%', padding: '10px 14px', borderRadius: '8px',
+                border: '1.5px solid #e5e7eb', fontSize: '14px', color: '#032b1d',
+                outline: 'none', boxSizing: 'border-box', background: '#FFFFFF'
+              }}
+              onFocus={e => e.target.style.borderColor = '#087448'}
+              onBlur={e => e.target.style.borderColor = '#e5e7eb'}
+            />
           </div>
 
-          {error && <p className="login-error">{error}</p>}
+          {error && (
+            <p style={{ fontSize: '13px', color: '#dc2626', margin: 0 }}>{error}</p>
+          )}
 
           <button
             type="submit"
             disabled={loading}
-            className="login-submit"
+            style={{
+              width: '100%', padding: '12px', borderRadius: '8px',
+              background: loading ? '#087448aa' : '#087448',
+              color: '#FFFFFF', fontSize: '15px', fontWeight: '600',
+              border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
+              marginTop: '4px', transition: 'background 0.2s'
+            }}
+            onMouseEnter={e => { if (!loading) e.target.style.background = '#16b36c' }}
+            onMouseLeave={e => { if (!loading) e.target.style.background = '#087448' }}
           >
             {loading ? 'Memproses...' : 'Masuk'}
           </button>
@@ -104,7 +120,7 @@ export default function Login() {
       </div>
 
       {/* Footer */}
-      <p className="login-footer">
+      <p style={{ color: '#087448', fontSize: '12px', marginTop: '24px', opacity: 0.7 }}>
         JWT · 8-hour session · Secured
       </p>
     </div>

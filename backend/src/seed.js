@@ -18,11 +18,7 @@ async function seed() {
   console.log('Seed berhasil!');
   console.log('Admin    → admin@greenfield.com / admin123');
   console.log('Operator → operator@greenfield.com / operator123');
+  process.exit(0);
 }
 
-seed()
-  .catch(err => {
-    console.error('Seed gagal:', err.message);
-    process.exit(1);
-  })
-  .finally(() => pool.end()); 
+seed().catch(console.error);
