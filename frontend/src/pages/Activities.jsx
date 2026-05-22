@@ -112,7 +112,7 @@ export default function Activities() {
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f0faf4' }}>
       <Sidebar />
 
-      <div style={{ marginLeft: '220px', flex: 1, padding: '32px' }}>
+      <div style={{ flex: 1, padding: '32px' }}>
 
         {/* Header */}
         <div style={{ marginBottom: '24px' }}>

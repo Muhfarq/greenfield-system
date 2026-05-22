@@ -1,6 +1,6 @@
 // src/components/Sidebar.jsx
-import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useSidebar } from '../context/SidebarContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import DashboardIcon from '../assets/Dashboard.svg';
@@ -22,26 +22,24 @@ const navItems = [
 
 export default function Sidebar({ incidentCount = 0 }) {
   const { user, logout } = useAuth();
+  const { isCollapsed, toggleSidebar } = useSidebar();
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // State untuk mode collapse
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const sidebarWidth = isCollapsed ? '80px' : '220px';
 
   return (
     <div style={{
       width: sidebarWidth, 
-      minHeight: '100vh', 
+      height: '100vh', 
       background: '#032b1d',
       display: 'flex', 
       flexDirection: 'column', 
-      position: 'fixed', 
-      left: 0, 
+      position: 'sticky', 
       top: 0, 
+      flexShrink: 0,
       zIndex: 10,
-      transition: 'width 0.3s ease-in-out' // Animasi transisi lebar
+      transition: 'width 0.3s ease-in-out'
     }}>
       
       {/* Header & Logo */}
@@ -71,7 +69,7 @@ export default function Sidebar({ incidentCount = 0 }) {
 
         {/* Tombol Toggle Arrow */}
         <button 
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={toggleSidebar}
           style={{ 
             background: 'none', border: 'none', cursor: 'pointer', 
             display: 'flex', alignItems: 'center', justifyContent: 'center',

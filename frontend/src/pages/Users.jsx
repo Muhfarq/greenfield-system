@@ -60,7 +60,7 @@ export default function Users() {
     <div className="flex min-h-screen bg-[#f4f7f6]">
       <Sidebar />
       
-      <div className="ml-[220px] flex-1 p-8">
+      <div className="flex-1 p-8">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

@@ -94,7 +94,7 @@ export default function Incidents() {
     <div className="flex min-h-screen bg-[#f4f7f6]">
       <Sidebar />
       
-      <div className="ml-[220px] flex-1 p-8">
+      <div className="flex-1 p-8">
         {/* Header Section */}
         <div className="mb-8">
           <h1 className="text-[24px] font-bold text-[#032b1d] mb-1">Log Insiden</h1>
