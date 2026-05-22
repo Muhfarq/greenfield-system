@@ -1,0 +1,80 @@
+.navbar {
+  background: #111827;
+  border-bottom: 1px solid #1f2937;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 4px;
+}
+
+.navbar-link {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+  color: #9ca3af;
+}
+.navbar-link:hover {
+  color: #ffffff;
+  background: #1f2937;
+}
+.navbar-link.active {
+  background: #374151;
+  color: #ffffff;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-user-name {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.navbar-role-badge {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+.navbar-role-badge.admin {
+  background: rgba(168, 85, 247, 0.2);
+  color: #d8b4fe;
+}
+.navbar-role-badge.operator {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+}
+
+.navbar-logout {
+  font-size: 14px;
+  color: #9ca3af;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.navbar-logout:hover {
+  color: #f87171;
+}

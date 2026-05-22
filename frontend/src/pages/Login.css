@@ -1,0 +1,131 @@
+/* src/pages/Login.css */
+.login-container {
+  min-height: 100vh;
+  width: 100%; /* Tambahan agar lebar full selayar */
+  background: #f4f7f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box; /* Agar padding tidak menambah lebar */
+}
+
+.login-logo-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-logo-box {
+  width: 64px;
+  height: 64px;
+  background: #087448;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.login-logo-letter {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.login-title {
+  color: #087448;
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.login-subtitle {
+  color: #16b36c;
+  font-size: 14px;
+  margin: 0;
+}
+
+.login-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.login-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #032b1d;
+  margin: 0 0 24px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #e5e7eb;
+  font-size: 14px;
+  color: #032b1d;
+  outline: none;
+  box-sizing: border-box;
+  background: #ffffff;
+  transition: border-color 0.15s;
+}
+
+.login-input:focus {
+  border-color: #087448;
+}
+
+.login-error {
+  font-size: 13px;
+  color: #dc2626;
+  margin: 0;
+}
+
+.login-submit {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: #087448;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s;
+} 
+
+.login-submit:hover:not(:disabled) {
+  background: #16b36c;
+}
+
+.login-submit:disabled {
+  background: #087448aa;
+  cursor: not-allowed;
+}
+
+.login-footer {
+  color: #087448;
+  font-size: 12px;
+  margin-top: 24px;
+  opacity: 0.7;
+}

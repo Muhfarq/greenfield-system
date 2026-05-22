@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100% !important;       /* Pakai !important agar memaksa full 100% */
+  max-width: 100% !important;   /* Hapus atau timpa max-width 1126px yang dulu */
+  display: flex;
+  flex-direction: column;
+}
