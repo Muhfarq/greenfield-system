@@ -32,9 +32,9 @@
 }
 
 .sidebar-logo-badge {
-  width: 36px;
-  height: 36px;
-  background: #087448;
+  width: auto;
+  height: auto;
+  background: transparent;
   border-radius: 10px;
   display: flex;
   align-items: center;

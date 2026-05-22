@@ -17,14 +17,14 @@
 }
 
 .login-logo-box {
-  width: 64px;
-  height: 64px;
-  background: #087448;
+  width: auto;
+  height: auto;
+  background: transparent;
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
+  margin: -90px 12px 12px;
 }
 
 .login-logo-letter {
@@ -44,6 +44,7 @@
   color: #16b36c;
   font-size: 14px;
   margin: 0;
+  margin-top: -60px;
 }
 
 .login-card {

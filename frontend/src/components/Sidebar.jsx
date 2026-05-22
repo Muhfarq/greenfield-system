@@ -10,6 +10,7 @@ import InsidenIcon from '../assets/insiden.svg';
 import KanbanIcon from '../assets/kanban.svg';
 import UserIcon from '../assets/user.svg';
 import ArrowIcon from '../assets/arrow.svg';
+import Logo from '../assets/Logo.png';
 
 import './Sidebar.css';
 
@@ -45,7 +46,9 @@ export default function Sidebar({ incidentCount = 0 }) {
       {/* Header & Logo */}
       <div className="sidebar-header">
         <div className="sidebar-logo">
-          <div className="sidebar-logo-badge">G</div>
+          <div className="sidebar-logo-badge">
+            <img src={Logo} alt="Greenfield" style={{ width: '60px', height: '40px' }} />
+          </div>
 
           {!isCollapsed && (
             <div className="sidebar-brand">

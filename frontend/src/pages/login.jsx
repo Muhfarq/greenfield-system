@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
+import Logo from '../assets/Logo.png';
 import './Login.css'; 
 
 export default function Login() {
@@ -33,9 +34,9 @@ export default function Login() {
       {/* Logo & Title */}
       <div className="login-logo-section">
         <div className="login-logo-box">
-          <span className="login-logo-letter">G</span>
+          <img src={Logo} alt="PT Greenfield" style={{ width: '260px', height: '220px' }} />
         </div>
-        <h1 className="login-title">PT Greenfield</h1>
+        {/* <h1 className="login-title">PT Greenfield</h1> */}
         <p className="login-subtitle">Operations Management System</p>
       </div>
 
