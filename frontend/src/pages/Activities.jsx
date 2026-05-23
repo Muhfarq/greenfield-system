@@ -46,6 +46,17 @@ export default function Activities() {
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState('');
   const [filterUrgency, setFilterUrgency] = useState('all');
+  const [toast, setToast] = useState('');
+  const [confirm, setConfirm] = useState({ show: false, message: '', onConfirm: null });
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 3000);
+  };
+
+  const showConfirm = (message, onConfirm) => {
+    setConfirm({ show: true, message, onConfirm });
+  };
 
   const fetchActivities = async () => {
     try {
@@ -64,8 +75,10 @@ export default function Activities() {
     try {
       if (editId) {
         await api.put(`/activities/${editId}`, form);
+        showToast('Aktivitas berhasil diupdate');
       } else {
         await api.post('/activities', form);
+        showToast('Aktivitas berhasil ditambahkan');
       }
       setShowForm(false);
       setForm(emptyForm);
@@ -73,6 +86,14 @@ export default function Activities() {
       fetchActivities();
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleSubmitClick = () => {
+    if (editId) {
+      showConfirm('Simpan perubahan aktivitas ini?', handleSubmit);
+    } else {
+      handleSubmit();
     }
   };
 
@@ -88,7 +109,6 @@ export default function Activities() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Hapus aktivitas ini?')) return;
     await api.delete(`/activities/${id}`);
     fetchActivities();
   };
@@ -181,7 +201,7 @@ export default function Activities() {
                   <button onClick={() => handleEdit(item)} className="act-icon-btn">
                     <img src={EditIcon} alt="edit" className="act-icon-edit" />
                   </button>
-                  <button onClick={() => handleDelete(item.id)} className="act-icon-btn act-icon-btn-del">
+                  <button onClick={() => showConfirm('Hapus aktivitas ini?', () => handleDelete(item.id))} className="act-icon-btn act-icon-btn-del">
                     <img src={DeleteIcon} alt="hapus" className="act-icon-del" />
                   </button>
                 </>)}
@@ -244,11 +264,27 @@ export default function Activities() {
             </div>
             <div className="act-modal-footer">
               <button onClick={() => setShowForm(false)} className="act-btn-cancel">Batal</button>
-              <button onClick={handleSubmit} className="act-btn-save">Simpan</button>
+              <button onClick={handleSubmitClick} className="act-btn-save">Simpan</button>
             </div>
           </div>
         </div>
       )}
+
+      {confirm.show && (
+        <div className="act-modal-overlay">
+          <div className="act-modal" style={{ maxWidth: 420 }}>
+            <div className="act-modal-body" style={{ textAlign: 'center', padding: '32px 24px' }}>
+              <p style={{ fontSize: 15, color: '#032b1d', fontWeight: 600, margin: 0 }}>{confirm.message}</p>
+            </div>
+            <div className="act-modal-footer" style={{ justifyContent: 'center', gap: 12 }}>
+              <button onClick={() => setConfirm({ show: false, message: '', onConfirm: null })} className="act-btn-cancel">Batal</button>
+              <button onClick={() => { confirm.onConfirm?.(); setConfirm({ show: false, message: '', onConfirm: null }); }} className="act-btn-save">Ya</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {toast && <div className="toast toast-success">{toast}</div>}
     </div>
   );
 }

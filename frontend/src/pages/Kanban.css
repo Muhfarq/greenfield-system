@@ -30,6 +30,25 @@
   color: #6b7280;
   font-size: 14px;
 }
+.kanban-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.kanban-filter-select {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #032b1d;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.kanban-filter-select:focus {
+  border-color: #087448;
+}
 .kanban-btn-add {
   background: #087448;
   color: #fff;

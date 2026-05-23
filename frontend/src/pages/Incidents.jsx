@@ -31,6 +31,17 @@ export default function Incidents() {
   const [editId, setEditId] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterUrgency, setFilterUrgency] = useState('all');
+  const [toast, setToast] = useState('');
+  const [confirm, setConfirm] = useState({ show: false, message: '', onConfirm: null });
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 3000);
+  };
+
+  const showConfirm = (message, onConfirm) => {
+    setConfirm({ show: true, message, onConfirm });
+  };
 
   const fetchData = async () => {
     try {
@@ -54,8 +65,10 @@ export default function Incidents() {
       const payload = { ...form, asset_id: form.asset_id || null };
       if (editId) {
         await api.put(`/incidents/${editId}`, payload);
+        showToast('Insiden berhasil diupdate');
       } else {
         await api.post('/incidents', payload);
+        showToast('Insiden berhasil ditambahkan');
       }
       setShowForm(false);
       setForm(emptyForm);
@@ -63,6 +76,14 @@ export default function Incidents() {
       fetchData();
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleSubmitClick = () => {
+    if (editId) {
+      showConfirm('Simpan perubahan insiden ini?', handleSubmit);
+    } else {
+      handleSubmit();
     }
   };
 
@@ -78,7 +99,6 @@ export default function Incidents() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Hapus insiden ini?')) return;
     await api.delete(`/incidents/${id}`);
     fetchData();
   };
@@ -176,7 +196,7 @@ export default function Incidents() {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                               </svg>
                             </button>
-                            <button onClick={() => handleDelete(item.id)} className="inc-action-btn">
+                            <button onClick={() => showConfirm('Hapus insiden ini?', () => handleDelete(item.id))} className="inc-action-btn">
                               <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                               </svg>
@@ -249,11 +269,27 @@ export default function Incidents() {
               </div>
               <div className="modal-footer">
                 <button onClick={() => { setShowForm(false); setEditId(null); }} className="btn-secondary">Batal</button>
-                <button onClick={handleSubmit} className="btn-primary-modal">Simpan</button>
+                <button onClick={handleSubmitClick} className="btn-primary-modal">Simpan</button>
               </div>
             </div>
           </div>
         )}
+
+      {confirm.show && (
+        <div className="modal-overlay" style={{ zIndex: 60 }}>
+          <div className="modal-card" style={{ maxWidth: 420 }}>
+            <div className="modal-body" style={{ textAlign: 'center', padding: '32px 24px' }}>
+              <p style={{ fontSize: 15, color: '#032b1d', fontWeight: 600, margin: 0 }}>{confirm.message}</p>
+            </div>
+            <div className="modal-footer" style={{ justifyContent: 'center', gap: 12 }}>
+              <button onClick={() => setConfirm({ show: false, message: '', onConfirm: null })} className="btn-secondary">Batal</button>
+              <button onClick={() => { confirm.onConfirm?.(); setConfirm({ show: false, message: '', onConfirm: null }); }} className="btn-primary-modal">Ya</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {toast && <div className="toast toast-success">{toast}</div>}
       </div>
     </div>
   );

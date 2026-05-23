@@ -35,15 +35,16 @@ export default function Kanban() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [dragId, setDragId] = useState(null);
+  const [filterOperator, setFilterOperator] = useState('all');
 
   const fetchData = async () => {
     try {
-      const [t, u] = await Promise.all([
-        api.get('/tasks'),
-        api.get('/auth/users'),
-      ]);
+      const t = await api.get('/tasks');
       setTasks(t.data);
-      setUsers(u.data);
+      if (user?.role === 'admin') {
+        const u = await api.get('/auth/users');
+        setUsers(u.data);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -94,8 +95,9 @@ export default function Kanban() {
   const getTasksByStatus = (status) =>
     tasks.filter(t => {
       const matchStatus = t.status === status;
-      const matchOwner = user?.role === 'admin' || t.assigned_to === user?.id || t.created_by === user?.id;
-      return matchStatus && matchOwner;
+      const matchAdminFilter = user?.role !== 'admin' || filterOperator === 'all' || t.assigned_to == filterOperator;
+      const matchOwner = user?.role === 'admin' || t.assigned_to === user?.id;
+      return matchStatus && matchOwner && matchAdminFilter;
     });
 
   if (loading) return (
@@ -115,12 +117,20 @@ export default function Kanban() {
             <p className="kanban-subtitle">Manajemen task visual berbasis kolom</p>
           </div>
           {user?.role === 'admin' && (
-            <button onClick={() => setShowForm(true)} className="kanban-btn-add">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-              </svg>
-              Buat Task
-            </button>
+            <div className="kanban-header-actions">
+              <select value={filterOperator} onChange={e => setFilterOperator(e.target.value)} className="kanban-filter-select">
+                <option value="all">Semua Operator</option>
+                {users.filter(u => u.role === 'operator').map(u => (
+                  <option key={u.id} value={u.id}>{u.name}</option>
+                ))}
+              </select>
+              <button onClick={() => setShowForm(true)} className="kanban-btn-add">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                </svg>
+                Buat Task
+              </button>
+            </div>
           )}
         </div>
 
